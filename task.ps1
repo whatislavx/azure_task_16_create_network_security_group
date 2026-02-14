@@ -86,13 +86,13 @@ $db_nsg_rule = New-AzNetworkSecurityRuleConfig `
     -SourceAddressPrefix $vnetAddressPrefix `
     -SourcePortRange * `
     -DestinationAddressPrefix $dbSubnetIpRange `
-    -DestinationPortRange 5432 # PostgreSQL
+    -DestinationPortRange *
 
 $db_nsg = New-AzNetworkSecurityGroup `
     -ResourceGroupName $resourceGroupName `
     -Location $location `
     -Name $dbSubnetName `
-    -SecurityRules $db_nsg_rule
+    -SecurityRules $db_nsg_rule, $nsg_rule_inbound, $nsg_rule_outbound
 
 Write-Host "Creating a virtual network ..."
 $webSubnet = New-AzVirtualNetworkSubnetConfig `
